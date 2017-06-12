@@ -27,9 +27,13 @@ class List(TimeStampedModel,Authorable):
     name = models.CharField(max_length=60)
     slug = models.SlugField(max_length=100)
     priority = models.PositiveIntegerField()
+    active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
+
+    def count_by_author(self,author):
+        return List.objects.filter(active=True,author=self.author).count()
 
     def incomplete_tasks(self):
         # Count all incomplete tasks on the current list instance
@@ -52,6 +56,7 @@ class Item(TimeStampedModel,Authorable):
     assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name='todo_assigned_to')
     note = models.TextField(blank=True, null=True)
     priority = models.PositiveIntegerField()
+    active = models.BooleanField(default=True)
 
     # Has due date for an instance of this object passed?
     def overdue_status(self):
@@ -84,6 +89,7 @@ class Comment(TimeStampedModel,Authorable):
     """
     task = models.ForeignKey(Item)
     body = models.TextField(blank=True)
+    active = models.BooleanField(default=True)
 
     def snippet(self):
         # Define here rather than in __str__ so we can use it in the admin list_display

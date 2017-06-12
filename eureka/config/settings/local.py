@@ -24,6 +24,7 @@ DATABASES = {
         'PASSWORD': get_secret('DB_PASSWORD'),
         'HOST': get_secret('DB_HOST'),
         'PORT': get_secret('DB_PORT'),
+        'ATOMIC_REQUESTS': True
     }
 }
 
