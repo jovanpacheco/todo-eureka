@@ -19,7 +19,7 @@ from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^service/', include('eureka.services.urls')),
+    url(r'^service/', include('eureka.list.urls')),
 ]
 
 if settings.DEBUG:
