@@ -25,7 +25,6 @@ urlpatterns = [
     url(r'^list_todo/', include('eureka.list.urls')),
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout'),
-    url(r'^admin/', admin.site.urls),    
 ]
 
 
