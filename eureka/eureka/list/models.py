@@ -7,6 +7,8 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.conf import settings
 from django.template.defaultfilters import slugify
 import datetime
+import uuid as uuid_lib
+
 
 class TimeStampedModel(models.Model):
 	"""
@@ -36,6 +38,10 @@ class List(TimeStampedModel,Authorable):
     slug = models.SlugField(max_length=100)
     priority = models.PositiveIntegerField(choices=PRIORITY_CHOICE)
     active = models.BooleanField(default=True)
+    uuid = models.UUIDField( # Used by the API to look up the record
+        db_index=True,
+        default=uuid_lib.uuid4,
+        editable=False)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -69,6 +75,10 @@ class Item(TimeStampedModel,Authorable):
     note = models.TextField(blank=True, null=True)
     priority = models.PositiveIntegerField(choices=PRIORITY_CHOICE)
     active = models.BooleanField(default=True)
+    uuid = models.UUIDField( # Used by the API to look up the record
+        db_index=True,
+        default=uuid_lib.uuid4,
+        editable=False)
 
     def overdue_status(self):
         "Returns whether the item's due date has passed or not."
@@ -101,7 +111,11 @@ class Comment(TimeStampedModel,Authorable):
     task = models.ForeignKey(Item)
     body = models.TextField(blank=True)
     active = models.BooleanField(default=True)
-
+    uuid = models.UUIDField( # Used by the API to look up the record
+        db_index=True,
+        default=uuid_lib.uuid4,
+        editable=False)
+    
     def snippet(self):
         return "{author} - {snippet}...".format(author=self.author, snippet=self.body[:35])
 
