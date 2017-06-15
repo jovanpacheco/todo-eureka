@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Listado {% endblock %}
+
+{% block pagina %}
+
+<span><a href="{% url 'list_app:list_register'%}">Registrar una nueva lista</a></span>
+<table border="1">
+	<thead>
+		<tr>
+			<th>Nombre</th>
+			<th>prioridad</th>
+			<th>Acciones</th>
+		</tr>		
+	</thead>
+	<tbody>
+	{%for object in object_list %}
+		<tr>
+			<td>{{object.name}}</td>
+			<td>{{object.priority}}</td>
+			<td>
+				<a href="{% url 'list_app:list_detail' object.pk %}">Ver detalle</a>
+				<a href="{% url 'list_app:list_items' object.pk %}">Ver items</a>
+				<a href="{% url 'list_app:list_update' object.pk %}">Actualizar</a>
+				<a href="{% url 'list_app:list_delete' object.pk %}">Eliminar</a>
+
+			</td>
+
+		</tr>
+	{% endfor %}		
+	</tbody>
+
+
+</table>
+
+{% endblock %}

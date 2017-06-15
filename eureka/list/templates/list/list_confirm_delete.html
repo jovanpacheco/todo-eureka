@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Listado {% endblock %}
+
+{% block pagina %}
+
+<table border="1">
+	<thead>
+		<tr>
+			<th>Objecto</th>
+			<th>{{object}}</th>
+		</tr>		
+	</thead>
+	<tbody>
+	<tr>
+		<td>
+			¿Esta seguro que desea eliminar este objecto?
+		</td>
+		<td>
+			<form role="form" method="POST">{% csrf_token %}
+
+                    <input type="submit" value="Sí"> 
+             </form>
+		</td>
+	</tr>
+	</tbody>
+
+
+</table>
+
+{% endblock %}
