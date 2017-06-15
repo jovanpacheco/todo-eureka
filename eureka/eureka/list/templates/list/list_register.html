@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Registrar {% endblock %}
+
+{% block pagina %}
+
+      <form id="form" method="POST" role="form">
+      	{% csrf_token %}     
+          {{ form.as_p }}
+        </div>              
+        <button type="submit">Guardar</button>
+      </form>
+
+{% endblock %}
