@@ -26,10 +26,10 @@ class Authorable(models.Model):
         abstract = True
 
 PRIORITY_CHOICE = (
-    ('1','high'),
-    ('2','medium'),
-    ('3','normal'),
-    ('4','low'),
+    (1,'high'),
+    (2,'medium'),
+    (3,'normal'),
+    (4,'low'),
 )
 
 @python_2_unicode_compatible

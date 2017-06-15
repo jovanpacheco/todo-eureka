@@ -2,22 +2,23 @@ from django import forms
 from .models import List,Item
 
 
-class ListForm(forms.Form):
+class ListForm(forms.ModelForm):
 
-    name = forms.CharField(
-        label='',
-        required=True,
-        widget=forms.TextInput(
-            attrs={'placeholder': 'Enter ToDo item'})
-    )
-    priority = forms.IntegerField(
-        label='',
-        required=True
-    )
+    # name = forms.CharField(
+    #     label='',
+    #     required=True,
+    #     widget=forms.TextInput(
+    #         attrs={'placeholder': 'Enter ToDo item'})
+    # )
+    # priority = forms.IntegerField(
+    #     label='',
+    #     required=True
+    # )
 
 
     class Meta:
         model = List
+        fields = ('name','priority','author')
 
 
 class ItemForm(forms.Form):
@@ -34,7 +35,10 @@ class ItemForm(forms.Form):
     note = forms.CharField(
         required=True
     )
-
+    priority = forms.IntegerField(
+        label='',
+        required=True
+    )
 
     class Meta:
         model = Item        
