@@ -17,10 +17,10 @@
 	{%for object in object_list %}
 		<tr>
 			<td>{{object.name}}</td>
-			<td>{{object.priority}}</td>
+			<td>{{object.get_priority}}</td>
 			<td>
 				<a href="{% url 'list_app:list_detail' object.pk %}">Ver detalle</a>
-				<a href="{% url 'list_app:list_items' object.pk %}">Ver items</a>
+				<a href="{% url 'list_app:item_list' object.pk %}">Ver items</a>
 				<a href="{% url 'list_app:list_update' object.pk %}">Actualizar</a>
 				<a href="{% url 'list_app:list_delete' object.pk %}">Eliminar</a>
 

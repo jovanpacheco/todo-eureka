@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block titulo %} Actualizar {% endblock %}
+{% block titulo %} Registrar {% endblock %}
 
 {% block pagina %}
 
@@ -8,7 +8,7 @@
       	{% csrf_token %}     
           {{ form.as_p }}
         </div>              
-        <button type="submit">Actualizar</button>
+        <button type="submit">Guardar</button>
       </form>
 
 {% endblock %}

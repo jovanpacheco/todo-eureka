@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Listado {% endblock %}
+
+{% block pagina %}
+
+<span><a href="{% url 'list_app:item_register_list' pk_list %}">Registrar un nuevo item</a></span>
+<table border="1">
+	<thead>
+		<tr>
+			<th>Titulo</th>
+			<th>Asignado a </th>
+			<th>Nota</th>
+			<th>Prioridad</th>
+			<th>Estado</th>
+			<th>Acciones</th>
+		</tr>		
+	</thead>
+	<tbody>
+	{%for object in object_list %}
+		<tr>
+			<td>{{object.title}}</td>
+			<td>{{object.assigned_to}}</td>
+			<td>{{object.note}}</td>
+			<td>{{object.get_priority}}</td>
+			<td>
+				{% if object.completed %}
+					completado {{object.completed_date}}
+				{% else %}
+					pendiente
+				{% endif %}
+			</td>
+			<td>
+				<a href="{% url 'list_app:item_update' pk_list object.pk %}">Actualizar</a>
+				<a href="{% url 'list_app:item_completed' pk_list object.pk %}">Marcar completado</a>
+				<a href="{% url 'list_app:item_delete' pk_list object.pk %}">Eliminar</a>
+			</td>
+
+		</tr>
+	{% endfor %}		
+	</tbody>
+
+
+</table>
+
+{% endblock %}

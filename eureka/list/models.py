@@ -47,6 +47,18 @@ class List(TimeStampedModel,Authorable):
         self.slug = slugify(self.name)
         super(List, self).save(*args, **kwargs)
 
+    @property
+    def get_priority(self):
+        if self.priority == 1:
+            return 'high'
+        elif self.priority == 2:
+            return 'medium'
+        elif self.priority == 3:
+            return 'normal'
+        elif self.priority == 4:
+            return 'low'
+
+
     def __str__(self):
         return self.name
 
@@ -67,12 +79,12 @@ class List(TimeStampedModel,Authorable):
 @python_2_unicode_compatible
 class Item(TimeStampedModel,Authorable):
     title = models.CharField(max_length=140)
-    list = models.ForeignKey(List)
+    list = models.ForeignKey('List')
     due_date = models.DateField(blank=True, null=True)
-    completed = models.BooleanField(default=None)
+    completed = models.BooleanField(default=False)
     completed_date = models.DateField(blank=True, null=True)
     assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name='todo_assigned_to')
-    note = models.TextField(blank=True, null=True)
+    note = models.TextField()
     priority = models.PositiveIntegerField(choices=PRIORITY_CHOICE)
     active = models.BooleanField(default=True)
     uuid = models.UUIDField( # Used by the API to look up the record
@@ -85,6 +97,17 @@ class Item(TimeStampedModel,Authorable):
         if self.due_date and datetime.date.today() > self.due_date:
             return 1
 
+    @property
+    def get_priority(self):
+        if self.priority == 1:
+            return 'high'
+        elif self.priority == 2:
+            return 'medium'
+        elif self.priority == 3:
+            return 'normal'
+        elif self.priority == 4:
+            return 'low'
+            
     def __str__(self):
         return self.title
 
