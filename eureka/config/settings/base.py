@@ -16,7 +16,7 @@ from django.core.exceptions import ImproperlyConfigured
 
 
 def root(*dirs):
-    base_dir = join(dirname(__file__), '..', '..')
+    base_dir = join(dirname(__file__), '..')
     return abspath(join(base_dir, *dirs))
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
