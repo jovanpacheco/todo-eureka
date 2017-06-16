@@ -22,7 +22,7 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include('eureka.list.urls',namespace="list_app")),
+    url(r'^', include('list.urls',namespace="list_app")),
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^api-rest/', include('rest_framework.urls',\

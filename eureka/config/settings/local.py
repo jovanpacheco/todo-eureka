@@ -32,7 +32,7 @@ DATABASES = {
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [root('eureka','templates')],
+        'DIRS': [root('templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -49,7 +49,7 @@ TEMPLATES = [
 INSTALLED_APPS += ['debug_toolbar', ]
 
 
-MEDIA_ROOT = root('eureka','media')
-STATIC_ROOT = root('eureka','static_root')
-STATICFILES_DIRS = [root('eureka','static')]
+MEDIA_ROOT = root('media')
+STATIC_ROOT = root('static_root')
+STATICFILES_DIRS = [root('static')]
 
