@@ -25,6 +25,8 @@ urlpatterns = [
     url(r'^', include('eureka.list.urls',namespace="list_app")),
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout'),
+    url(r'^api-rest/', include('rest_framework.urls',\
+    namespace='rest_framework')),    
 ]
 
 
