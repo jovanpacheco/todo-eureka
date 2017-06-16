@@ -23,7 +23,8 @@ urlpatterns = [
 	url(r'^list/delete/(?P<pk>\d+)/$', ListDeleteView.as_view(), name='list_delete'),
 
 	url(r'^item/list/(?P<pk>\d+)/$',ItemListView.as_view() , name="item_list"),
-	url(r'^item/list/register/(?P<pk>\d+)/$',ItemRegisterView.as_view(form_class=ItemListForm) , name="item_register_list"),
+	url(r'^item/list/register/(?P<pk>\d+)/$',ItemRegisterView.as_view(form_class=ItemListForm),
+		name="item_register_list"),
 	url(r'^item/register/$',ItemRegisterView.as_view(form_class=ItemForm) , name="item_register_new"),
 	url(r'^item/list/(?P<pk_list>\d+)/update/(?P<pk>\d+)/$', ItemUpdateView.as_view(), name='item_update'),
 	url(r'^item/list/(?P<pk_list>\d+)/delete/(?P<pk>\d+)/$', ItemDeleteView.as_view(), name='item_delete'),
@@ -33,11 +34,14 @@ urlpatterns = [
 	url(r'^api/(?P<version>[v1.]+)/list/$',viewsets.AllListViewSet.as_view(),name='all_list'),
 	url(r'^api/(?P<version>[v1.]+)/list/(?P<uuid>[-\w]+)/$',viewsets.ObjectListViewSet.as_view(),name='uuid_list'),
 	url(r'^api/(?P<version>[v1.]+)/author_list/$',viewsets.AuthorListViewSet.as_view(),name='author_list'),
-	url(r'^api/(?P<version>[v1.]+)/author_list/(?P<uuid>[-\w]+)/$',viewsets.ObjectAuthorListViewSet.as_view(),name='author_list'),
+	url(r'^api/(?P<version>[v1.]+)/author_list/(?P<uuid>[-\w]+)/$',viewsets.ObjectAuthorListViewSet.as_view(),
+		name='author_list'),
 
 
+	url(r'^api/(?P<version>[v1.]+)/item/$',viewsets.AllItemViewSet.as_view(),name='all_item'),
+	url(r'^api/(?P<version>[v1.]+)/item/(?P<uuid>[-\w]+)/$',viewsets.ObjectItemViewSet.as_view(),name='uuid_item'),
+	url(r'^api/(?P<version>[v1.]+)/item/list/(?P<uuid>[-\w]+)/$',viewsets.AllItemForListViewSet.as_view(),
+		name='items_by_list'),
 
-	# url(r'^api/v1/list/', include(router_list.urls)),
-	# url(r'^(?P<version>[v1.]+)/users/$', UserView.as_view(), name="user"),
 
 ]

@@ -1,10 +1,12 @@
 from rest_framework import serializers
 from ..models import List,Item
+from django.contrib.auth import get_user_model
 
-# class UserSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ('url', 'username', 'email', 'groups')
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ('url', 'username', 'email', 'groups')
 
 # class RegistrationSerializer(serializers.ModelSerializer):
 #     class Meta:
@@ -15,3 +17,19 @@ class ListSerializer(serializers.ModelSerializer):
     class Meta:
         model = List
         fields = ('uuid', 'name','priority','active')     
+
+class ItemSerializer(serializers.HyperlinkedModelSerializer):
+    #list = serializers.HyperlinkedIdentityField(view_name="list_app:uuid_list",lookup_field='uuid')
+    #list = serializers.HyperlinkedRelatedField(view_name='list_app:uuid_list',
+    #   read_only=True)
+
+    uuid_list = serializers.CharField(source='list.uuid') 
+    assigned_to = serializers.CharField(source='assigned_to.username') 
+
+    class Meta:
+        model = Item
+        fields = ('uuid', 'title','priority','uuid_list','due_date','completed','completed_date',
+        'note','active','assigned_to')  #
+        extra_kwargs = {
+            'list': {'lookup_field': 'uuid'}
+        }
