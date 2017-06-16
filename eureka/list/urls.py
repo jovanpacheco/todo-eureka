@@ -37,11 +37,15 @@ urlpatterns = [
 	url(r'^api/(?P<version>[v1.]+)/author_list/(?P<uuid>[-\w]+)/$',viewsets.ObjectAuthorListViewSet.as_view(),
 		name='author_list'),
 
-
+	## Apis for item 
 	url(r'^api/(?P<version>[v1.]+)/item/$',viewsets.AllItemViewSet.as_view(),name='all_item'),
+	url(r'^api/(?P<version>[v1.]+)/item/(?P<uuid>[-\w]+)/completed$',viewsets.CompletedItemViewSet.as_view(),
+		name='completed_item'),	
 	url(r'^api/(?P<version>[v1.]+)/item/(?P<uuid>[-\w]+)/$',viewsets.ObjectItemViewSet.as_view(),name='uuid_item'),
 	url(r'^api/(?P<version>[v1.]+)/item/list/(?P<uuid>[-\w]+)/$',viewsets.AllItemForListViewSet.as_view(),
 		name='items_by_list'),
 
+	# register a new user by api
+	url(r'^api/(?P<version>[v1.]+)/user/$',viewsets.RegistrationView.as_view(),name='new_user'),
 
 ]

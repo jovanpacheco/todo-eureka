@@ -124,23 +124,3 @@ class Item(TimeStampedModel,Authorable):
     class Meta:
         ordering = ["priority"]
 
-
-@python_2_unicode_compatible
-class Comment(TimeStampedModel,Authorable):
-    """
-    Not using Django's built-in comments because we want to be able to save
-    a comment and change task details at the same time. Rolling our own since it's easy.
-    """
-    task = models.ForeignKey(Item)
-    body = models.TextField(blank=True)
-    active = models.BooleanField(default=True)
-    uuid = models.UUIDField( # Used by the API to look up the record
-        db_index=True,
-        default=uuid_lib.uuid4,
-        editable=False)
-    
-    def snippet(self):
-        return "{author} - {snippet}...".format(author=self.author, snippet=self.body[:35])
-
-    def __str__(self):
-        return self.snippet
