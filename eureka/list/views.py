@@ -33,7 +33,7 @@ class ListRegisterView(LoginRequiredMixin,SuccessMessageMixin,CreateView):
     template_name = 'list/list_register.html'
 
     def form_valid(self, form):
-        return super(RegisterListView, self).form_valid(form)
+        return super(ListRegisterView, self).form_valid(form)
 
 
 class ListUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
@@ -93,6 +93,10 @@ class ItemRegisterView(LoginRequiredMixin,SuccessMessageMixin,CreateView):
             return reverse_lazy('list_app:list_list')
 
     def form_valid(self, form):
+        try:
+            form.instance.list = List.objects.get(id=self.kwargs['pk'])
+        except KeyError:
+            pass     
         return super(ItemRegisterView, self).form_valid(form)
         
 class ItemUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):

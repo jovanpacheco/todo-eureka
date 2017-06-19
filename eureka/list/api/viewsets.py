@@ -34,8 +34,11 @@ class AllListViewSet(APIView):
             priority=data['priority'],
             active=True)
         l.save()
-        request.data['uuid'] = l.uuid # return id
-        return Response(request.data, status=status.HTTP_201_CREATED)
+        resp = {
+            'uuid':l.uuid
+        }
+        resp.update(request.data)
+        return Response(resp, status=status.HTTP_201_CREATED)
 
 
 class ObjectListViewSet(APIView):
@@ -49,27 +52,27 @@ class ObjectListViewSet(APIView):
 
     def get(self, request, version, uuid):
         """ Get List by uuid """
-        list_object = self.get_object(uuid)
-        serializer = ListSerializer(list_object)
+        object = self.get_object(uuid)
+        serializer = ListSerializer(object)
         return Response(serializer.data)
 
-    def put(self, request, uuid):
+    def put(self, request, version,uuid):
         """ Update a List """
         serializer = ListSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         data = serializer.data
-        list_object = self.get_object(uuid)
-        list_object.name=data['name']
-        list_object.priority=data['priority']
-        list_object.save()
+        object = self.get_object(uuid)
+        object.name=data['name']
+        object.priority=data['priority']
+        object.save()
         return Response(status=status.HTTP_200_OK)
 
 
     def delete(self, request, version, uuid, format=None):
-        list_object = self.get_object(uuid)
-        list_object.delete()
+        object = self.get_object(uuid)
+        object.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)            
 
 
@@ -98,8 +101,11 @@ class AuthorListViewSet(APIView):
             priority=data['priority'],
             active=True)
         l.save()
-        request.data['uuid'] = l.uuid # return id
-        return Response(request.data, status=status.HTTP_201_CREATED)
+        resp = {
+            'uuid':l.uuid
+        }
+        resp.update(request.data)
+        return Response(resp, status=status.HTTP_201_CREATED)
 
 
 class ObjectAuthorListViewSet(ObjectListViewSet):
@@ -135,27 +141,31 @@ class AllItemViewSet(APIView):
         except User.DoesNotExist:
             return Response({'detail':'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
 
-        l = Item(
-            author=author,
-            note=data['note'],
-            priority=data['priority'],
-            active=True,
-            title=data['title'],
-            list=list,
-            assigned_to=assigned_to,
-            due_date=data['due_date']
-            )
-        l.save()
+        I = Item()
+        try:
+            I.due_date = data['due_date']
+        except Exception as e:
+            pass
 
-        request.data['uuid'] = l.uuid # return id
-        return Response(request.data, status=status.HTTP_201_CREATED)
+        I.author=author
+        I.note=data['note']
+        I.priority=data['priority']
+        I.title=data['title']
+        I.list=list
+        I.assigned_to=assigned_to
+        I.save()
+        resp = {
+            'uuid':I.uuid
+        }
+        resp.update(request.data)
+        return Response(resp, status=status.HTTP_201_CREATED)
 
 
 
 
 class AllItemForListViewSet(APIView):
 
-    permission_classes = (IsAuthenticated,IsAuthor)
+    permission_classes = (IsAuthenticated,IsAdminUser)
 
     def get(self, request,version,uuid):
         """ Get all items for one list by uuid """
@@ -181,8 +191,8 @@ class ObjectItemViewSet(APIView):
 
     def get(self, request, version, uuid):
         """ Get Item by uuid """
-        list_object = self.get_object(uuid)
-        serializer = ItemSerializer(list_object)
+        object = self.get_object(uuid)
+        serializer = ItemSerializer(object)
         return Response(serializer.data)
 
     def put(self, request, version,uuid):
@@ -192,19 +202,23 @@ class ObjectItemViewSet(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         data = serializer.data
-        list_object = self.get_object(uuid)
-        list_object.note = data['note']
-        list_object.title = data['title']
-        list_object.priority = data['priority']
-        list_object.due_date = data['due_date']
-        list_object.completed = data['completed']   
-        list_object.save()
+        object = self.get_object(uuid)
+        object.note = data['note']
+        object.title = data['title']
+        object.priority = data['priority']
+        try:
+            object.due_date = data['due_date']
+        except KeyError:
+            pass
+
+        object.completed = data['completed']   
+        object.save()
         return Response(status=status.HTTP_200_OK)
 
 
     def delete(self, request, version, uuid, format=None):
-        list_object = self.get_object(uuid)
-        list_object.delete()
+        object = self.get_object(uuid)
+        object.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -223,9 +237,9 @@ class CompletedItemViewSet(APIView):
     def put(self, request, version,uuid):
         """ completed a Item """
 
-        list_object = self.get_object(uuid)
-        list_object.completed = True  
-        list_object.save()
+        object = self.get_object(uuid)
+        object.completed = True  
+        object.save()
         return Response(status=status.HTTP_200_OK)
 
 
@@ -247,4 +261,4 @@ class RegistrationView(APIView):
         u.set_password(data['password'])
         u.save()
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response({}, status=status.HTTP_201_CREATED)
