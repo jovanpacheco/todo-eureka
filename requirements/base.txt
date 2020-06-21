@@ -1,4 +1,4 @@
-Django==1.11.22
+Django==1.11.29
 psycopg2==2.7.1
 pytz==2017.2
 sqlparse==0.2.3
